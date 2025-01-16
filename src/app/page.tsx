@@ -1,37 +1,27 @@
 "use client";
-import Image from "next/image";
-import imageRNM from "./../img/rick-morty.png";
 import { useState } from "react";
-import Characters from "../components/Characters";
+import { useFetch } from "../hooks/useFetch";
 
 export default function App() {
+  const [counter, setCounter] = useState(0);
 
-  const [characters, setCharacters] = useState(null);
+  console.log('App');
 
-  // API request
-  const reqApi = async () => {
-    const api = await fetch("https://rickandmortyapi.com/api/character");
-    const characterApi = await api.json();
-    setCharacters(characterApi.results);
-  }
+  const { data, loading, error } = useFetch("https://rickandmortyapi.com/api/character");
 
-  console.log(characters);
+  if (loading) return <h1>Cargando...</h1>;
+  if (error) return <><h1>Error al consumir la API</h1><p>{error}</p></>;
 
-  // Return
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1 className="title">API Rick and Morty</h1>
-        {characters ? (
-          <Characters characters={characters} setCharacters={setCharacters}></Characters>
-        ) : (
-          <>
-            <Image src={imageRNM} alt="Rick and Morty" className="img-home" />
-            <button onClick={reqApi} className="btn-search rounded-lg">Buscar personajes</button>
-          </>
-        )
-        }
-      </header>
-    </div>
+    <>
+      <h1 className="title">UseEffect</h1>
+      <button onClick={() => setCounter(counter + 1)}>Counter: {counter}</button>
+      <ul>
+        {data.map((character) => (
+          <li key={user.id}>{user.name}</li>
+        ))}
+      </ul>
+    </>
   );
+
 }

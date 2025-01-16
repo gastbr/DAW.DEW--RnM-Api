@@ -6,7 +6,12 @@ const nextConfig: NextConfig = {
 
 module.exports = {
   images: {
-    domains: ['rickandmortyapi.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'rickandmortyapi.com',
+      }
+    ]
   },
 };
 
